@@ -31,7 +31,7 @@ function employeeCreator() {
             message: "role",
             name: "Enter employee role.",
             choices: ["Manager", "Engineer", "Intern"]
-        }).then(function ({ choice })) {
+        }).then(function ({ choice }) {
         switch (choice) {
             case "Manager":
                 // createManager()
@@ -46,7 +46,15 @@ function employeeCreator() {
                 break;
         }
         
-        }
+    })
+}
+
+function creatManager() {
+    inquirer.prompt({
+        type: "input",
+        message: "Enter your office number",
+        name: "officeNumber"
+    })
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
