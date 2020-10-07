@@ -33,8 +33,8 @@ function employeeCreator() {
                 createIntern()
                 break;
                 
-            // default: 
-            //     createPage()       
+            default: 
+                createPage()       
             
         }
         
@@ -93,12 +93,12 @@ function createEngineer() {
         message: "Enter your github url",
         name: "github"
     }])
-        .then(function ({ github }) {
-            const newEngineer = new Engineer(name, id, email, github);
-            employees.push(newEngineer);
-            console.log(employees)
-            employeeCreator()
-        })
+    .then (answer => {
+        const newEngineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
+        employees.push(newEngineer);
+        console.log(employees)
+        employeeCreator()
+    })
 }
 function createIntern() {
     inquirer.prompt([
@@ -122,13 +122,20 @@ function createIntern() {
         message: "Enter your school",
         name: "school"
     }])
-        .then(function ({ school }) {
-            const newIntern = new Intern(name, id, email, school);
-            employees.push(newIntern);
-            console.log(employees)
-            employeeCreator()
-        })
+    .then (answer => {
+        const newIntern = new Intern(answer.name, answer.id, answer.email, answer.school);
+        employees.push(newIntern);
+        console.log(employees)
+        employeeCreator()
+    })
 }
+
+function createPage() {
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, render(employees), "utf-8");
+};
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
