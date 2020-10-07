@@ -1,6 +1,6 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -11,17 +11,18 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+employeeCreator()
 function employeeCreator() {
     inquirer.prompt({
-        {
+        
             type: "list",
-            message: "role",
-            name: "Enter employee role.",
+            message: "Enter employee role.",
+            name: "role",
             choices: ["Manager", "Engineer", "Intern", "Quit"]
-        }).then(function ({ choice }) {
-            switch (choice) {
+        }).then(function ({ role }) {
+            switch (role) {
                 case "Manager":
-                    creatManager();
+                    createManager();
                     break;
                
             case "Engineer":
@@ -31,19 +32,16 @@ function employeeCreator() {
             case "Intern":
                 createIntern()
                 break;
-        
-                case "Quit":
-                    
-                    break;
-        
-            
+                
+            // default: 
+            //     createPage()       
             
         }
         
     })
 }
 
-function creatManager() {
+function createManager() {
     inquirer.prompt([
         {
         type: "input",
@@ -56,7 +54,7 @@ function creatManager() {
             name: "id"
         },
         {
-            type: "email",
+            type: "input",
             message: "Enter employee email.",
             name: "email"
         },
@@ -65,15 +63,15 @@ function creatManager() {
         message: "Enter your office number",
         name: "officeNumber"
     }])
-        .then(function ({ officeNumber }) {
-            const newManager = new Manager(name, id, email, officeNumber);
+        .then (answer => {
+            const newManager = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
             employees.push(newManager);
             console.log(employees)
             employeeCreator()
         })
 }
 
-function creatEngineer() {
+function createEngineer() {
     inquirer.prompt([
         {
         type: "input",
@@ -86,7 +84,7 @@ function creatEngineer() {
             name: "id"
         },
         {
-            type: "email",
+            type: "input",
             message: "Enter employee email.",
             name: "email"
         },
@@ -102,7 +100,7 @@ function creatEngineer() {
             employeeCreator()
         })
 }
-function creatIntern() {
+function createIntern() {
     inquirer.prompt([
         {
         type: "input",
@@ -115,7 +113,7 @@ function creatIntern() {
             name: "id"
         },
         {
-            type: "email",
+            type: "input",
             message: "Enter employee email.",
             name: "email"
         },
