@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const employees = []
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -12,6 +13,39 @@ const render = require("./lib/htmlRenderer");
 
 function employeeCreator() {
     inquirer.prompt({
+        {
+            type: "list",
+            message: "role",
+            name: "Enter employee role.",
+            choices: ["Manager", "Engineer", "Intern", "Quit"]
+        }).then(function ({ choice }) {
+            switch (choice) {
+                case "Manager":
+                    creatManager();
+                    break;
+               
+            case "Engineer":
+                createEngineer()
+                break;
+            
+            case "Intern":
+                createIntern()
+                break;
+        
+                case "Quit":
+                    
+                    break;
+        
+            
+            
+        }
+        
+    })
+}
+
+function creatManager() {
+    inquirer.prompt([
+        {
         type: "input",
         message: "Enter employee name.",
         name: "name"
@@ -27,34 +61,75 @@ function employeeCreator() {
             name: "email"
         },
         {
-            type: "list",
-            message: "role",
-            name: "Enter employee role.",
-            choices: ["Manager", "Engineer", "Intern"]
-        }).then(function ({ choice }) {
-        switch (choice) {
-            case "Manager":
-                // createManager()
-                break;
-            
-            case "Engineer":
-                // createEngineer()
-                break;
-            
-            case "Intern":
-                // createIntern()
-                break;
-        }
-        
-    })
-}
-
-function creatManager() {
-    inquirer.prompt({
         type: "input",
         message: "Enter your office number",
         name: "officeNumber"
-    })
+    }])
+        .then(function ({ officeNumber }) {
+            const newManager = new Manager(name, id, email, officeNumber);
+            employees.push(newManager);
+            console.log(employees)
+            employeeCreator()
+        })
+}
+
+function creatEngineer() {
+    inquirer.prompt([
+        {
+        type: "input",
+        message: "Enter employee name.",
+        name: "name"
+    },
+        {
+            type: "input",
+            message: "Enter employee ID.",
+            name: "id"
+        },
+        {
+            type: "email",
+            message: "Enter employee email.",
+            name: "email"
+        },
+        {
+        type: "input",
+        message: "Enter your github url",
+        name: "github"
+    }])
+        .then(function ({ github }) {
+            const newEngineer = new Engineer(name, id, email, github);
+            employees.push(newEngineer);
+            console.log(employees)
+            employeeCreator()
+        })
+}
+function creatIntern() {
+    inquirer.prompt([
+        {
+        type: "input",
+        message: "Enter employee name.",
+        name: "name"
+    },
+        {
+            type: "input",
+            message: "Enter employee ID.",
+            name: "id"
+        },
+        {
+            type: "email",
+            message: "Enter employee email.",
+            name: "email"
+        },
+        {
+        type: "input",
+        message: "Enter your school",
+        name: "school"
+    }])
+        .then(function ({ school }) {
+            const newIntern = new Intern(name, id, email, school);
+            employees.push(newIntern);
+            console.log(employees)
+            employeeCreator()
+        })
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
